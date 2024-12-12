@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: witty-backend-deployment
+spec:
+  replicas: 1
+  selector:                   
+    matchLabels:
+      app: witty-backend        
+  template:
+    metadata:
+      labels:
+        app: witty-backend
+    spec:
+      containers:
+        - name: witty-backend
+          image: amanchauhan810/wittyticketing-backend:latest
+          env:                  
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-config
+                  key: MONGO_HOST
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-config
+                  key: MONGO_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: mongo-config
+                  key: DB_NAME   
+          ports:
+            - containerPort: 8000
+              name: nodejs-port

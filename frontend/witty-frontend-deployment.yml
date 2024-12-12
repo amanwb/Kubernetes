@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: witty-frontend-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: witty-frontend
+    spec:
+      containers:
+        - name: witty-frontend
+          image: amanchauhan810/wittyticketing-frontend:proxy
+          ports:
+            - containerPort: 80
+              name: http-port
+  selector:
+    matchLabels:
+      app: witty-frontend
